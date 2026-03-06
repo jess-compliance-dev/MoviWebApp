@@ -19,9 +19,7 @@ class DataManager:
 
     # 3. Movie CRUD Operations
     def add_movie(self, movie_object):
-        """
-        Adds a movie to the database.
-        """
+        """Adds a movie to the database."""
         db.session.add(movie_object)
         db.session.commit()
 
