@@ -1,16 +1,32 @@
-# This is a sample Python script.
+import os
+from flask import Flask, render_template
+from models import db, User, Movie
 
-# Press Umschalt+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+app = Flask(__name__)
 
+# Configuration for the SQLite database file
+# This creates a 'data' folder path and a 'moviweb.db' file inside it
+basedir = os.path.abspath(os.path.dirname(__file__))
+db_path = os.path.join(basedir, 'data', 'moviweb.db')
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Strg+F8 to toggle the breakpoint.
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + db_path
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
+# Connect the database object to the Flask app
+db.init_app(app)
 
-# Press the green button in the gutter to run the script.
+# Create the database and tables if they don't exist yet
+with app.app_context():
+    # Ensure the 'data' directory exists
+    if not os.path.exists(os.path.join(basedir, 'data')):
+        os.makedirs(os.path.join(basedir, 'data'))
+    db.create_all()
+
+@app.route('/')
+def index():
+    # Fetch all users to display them on the home page
+    users = User.query.all()
+    return render_template('index.html', users=users)
+
 if __name__ == '__main__':
-    print_hi('PyCharm')
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+    app.run(debug=True)
