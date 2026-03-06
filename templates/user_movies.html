@@ -1,4 +1,48 @@
-from flask import Flask
+{% extends "base.html" %}
 
-app = Flask(__name__)
+{% block content %}
+<div class="user-header">
+    <h1>Movie Collection</h1>
+    <a href="{{ url_for('home') }}" class="back-link">← Back to Users</a>
+</div>
 
+<div class="movie-grid">
+    {% for movie in movies %}
+    <div class="movie-card">
+        <div class="poster-container">
+            {% if movie.poster_url and movie.poster_url != 'N/A' %}
+                <img src="{{ movie.poster_url }}" alt="{{ movie.name }}">
+            {% else %}
+                <div class="no-poster">No Image</div>
+            {% endif %}
+        </div>
+
+        <div class="movie-info">
+            <h3>{{ movie.name }}</h3>
+            <p class="meta">{{ movie.director }} | {{ movie.year }}</p>
+
+            <div class="actions">
+                <form action="{{ url_for('update_movie', user_id=user_id, movie_id=movie.id) }}" method="post" class="update-form">
+                    <input type="text" name="title" placeholder="Edit title..." required>
+                    <button type="submit" class="btn-update">Update</button>
+                </form>
+
+                <form action="{{ url_for('delete_movie', user_id=user_id, movie_id=movie.id) }}" method="post">
+                    <button type="submit" class="btn-delete" onclick="return confirm('Remove this movie?')">Delete</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <p>This user hasn't added any movies yet.</p>
+    {% endfor %}
+</div>
+
+<section class="add-movie-form">
+    <h2>Add New Movie</h2>
+    <form action="{{ url_for('add_movie', user_id=user_id) }}" method="post">
+        <input type="text" name="title" placeholder="Movie Title (e.g. Inception)" required>
+        <button type="submit" class="btn-add">Add to Favorites</button>
+    </form>
+</section>
+{% endblock %}

@@ -1,8 +1,12 @@
 import os
+import requests
 from flask import Flask, request, redirect, url_for, render_template
+from dotenv import load_dotenv
 from models import db, User, Movie
 from data_manager import DataManager
 
+# load API key
+load_dotenv()
 app = Flask(__name__)
 
 OMDB_API_KEY = os.getenv('OMDB_API_KEY')
@@ -47,7 +51,29 @@ def user_movies(user_id):
 
 @app.route('/users/<int:user_id>/movies', methods=['POST'])
 def add_movie(user_id):
-    """Adds a new movie to a user's list."""
+    """Adds a new movie to a user's list by fetching OMDb info."""
+    movie_title = request.form.get('title')
+
+    if movie_title and OMDB_API_KEY:
+        # Fetching data from OMDb
+        response = requests.get(f"http://www.omdbapi.com/?apikey={OMDB_API_KEY}&t={movie_title}")
+        data = response.json()
+
+        if data.get('Response') == 'True':
+            # Clean year string (e.g., "2024–" to 2024)
+            raw_year = data.get('Year', '0')
+            clean_year = "".join(filter(str.isdigit, raw_year))[:4]
+
+            # Creating the Movie object
+            new_movie = Movie(
+                name=data.get('Title'),
+                director=data.get('Director'),
+                year=int(clean_year) if clean_year else 0,
+                poster_url=data.get('Poster'),
+                user_id=user_id
+            )
+            data_manager.add_movie(new_movie)
+
     return redirect(url_for('user_movies', user_id=user_id))
 
 
@@ -55,7 +81,8 @@ def add_movie(user_id):
 def update_movie(user_id, movie_id):
     """Updates the title of a specific movie."""
     new_title = request.form.get('title')
-    data_manager.update_movie(movie_id, new_title)
+    if new_title:
+        data_manager.update_movie(movie_id, new_title)
     return redirect(url_for('user_movies', user_id=user_id))
 
 
