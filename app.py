@@ -44,27 +44,30 @@ def add_user():
 @app.route('/users/<int:user_id>/movies', methods=['GET'])
 def user_movies(user_id):
     """Displays the list of favorite movies for a specific user."""
+    user = User.query.get_or_404(user_id)
     movies = data_manager.get_movies(user_id)
-    # We pass user_id to the template so it knows who owns the movies
     return render_template('user_movies.html', movies=movies, user_id=user_id)
 
 
 @app.route('/users/<int:user_id>/movies', methods=['POST'])
+@app.route('/users/<int:user_id>/movies', methods=['POST'])
 def add_movie(user_id):
-    """Adds a new movie to a user's list by fetching OMDb info."""
     movie_title = request.form.get('title')
 
     if movie_title and OMDB_API_KEY:
-        # Fetching data from OMDb
-        response = requests.get(f"http://www.omdbapi.com/?apikey={OMDB_API_KEY}&t={movie_title}")
+
+        response = requests.get(
+            "http://www.omdbapi.com/",
+            params={"apikey": OMDB_API_KEY, "t": movie_title}
+        )
+
         data = response.json()
+        print("OMDB RESPONSE:", data)
 
         if data.get('Response') == 'True':
-            # Clean year string (e.g., "2024–" to 2024)
             raw_year = data.get('Year', '0')
             clean_year = "".join(filter(str.isdigit, raw_year))[:4]
 
-            # Creating the Movie object
             new_movie = Movie(
                 name=data.get('Title'),
                 director=data.get('Director'),
@@ -72,6 +75,7 @@ def add_movie(user_id):
                 poster_url=data.get('Poster'),
                 user_id=user_id
             )
+
             data_manager.add_movie(new_movie)
 
     return redirect(url_for('user_movies', user_id=user_id))
@@ -92,6 +96,13 @@ def delete_movie(user_id, movie_id):
     data_manager.delete_movie(movie_id)
     return redirect(url_for('user_movies', user_id=user_id))
 
+
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('404.html'), 404
+
+
+print(OMDB_API_KEY)
 
 if __name__ == '__main__':
     app.run(debug=True)
