@@ -48,21 +48,17 @@ def user_movies(user_id):
     movies = data_manager.get_movies(user_id)
     return render_template('user_movies.html', movies=movies, user_id=user_id)
 
-
-@app.route('/users/<int:user_id>/movies', methods=['POST'])
 @app.route('/users/<int:user_id>/movies', methods=['POST'])
 def add_movie(user_id):
     movie_title = request.form.get('title')
 
     if movie_title and OMDB_API_KEY:
-
         response = requests.get(
             "http://www.omdbapi.com/",
             params={"apikey": OMDB_API_KEY, "t": movie_title}
         )
 
         data = response.json()
-        print("OMDB RESPONSE:", data)
 
         if data.get('Response') == 'True':
             raw_year = data.get('Year', '0')
@@ -77,6 +73,16 @@ def add_movie(user_id):
             )
 
             data_manager.add_movie(new_movie)
+            return redirect(url_for('user_movies', user_id=user_id))
+
+        else:
+            movies = data_manager.get_movies(user_id)
+            return render_template(
+                "user_movies.html",
+                movies=movies,
+                user_id=user_id,
+                error="Movie not found"
+            )
 
     return redirect(url_for('user_movies', user_id=user_id))
 

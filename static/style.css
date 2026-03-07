@@ -212,6 +212,17 @@ a:visited {
     margin-top: 5px;
 }
 
+
+/* ERROR MESSAGE */
+.error-message {
+    color: #b30000;
+    background: #ffe5e5;
+    padding: 10px;
+    border-radius: 6px;
+    margin-bottom: 10px;
+    display: inline-block;
+}
+
 /* MOVIE DETAIL PAGE SPACING */
 
 .movie-details h1 {
