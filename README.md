@@ -52,18 +52,15 @@ It demonstrates modular Python code, Flask web development, dynamic HTML generat
 ## OMDb API Integration
 * Uses the OMDb API to fetch real-time movie information
 * Requires a personal API key from OMDb
-* API requests are handled in data_manager.py using the requests library
 
-Example usage:
+Example:
 ````
-import requests
 import os
+import dotenv import load_dotenv
 
+load_dotenv()
 OMDB_API_KEY = os.getenv("OMDB_API_KEY")
-movie_title = "Inception"
 
-response = requests.get(f"http://www.omdbapi.com/?t={movie_title}&apikey={OMDB_API_KEY}")
-movie_data = response.json()
 ````
 ## Setup
 1. Clone the repository and install dependencies:
