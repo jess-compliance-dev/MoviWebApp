@@ -11,10 +11,9 @@
 * [Project Purpose](#project-purpose)
 
 ## General info
-🎬 MoviWebApp is a web application that allows users to browse, and manage movie data through an interactive interface.
+🎬 Built a Movi Web App that allows users to browse and manage movie data through an interactive interface, leveraging the OMDb API to fetch real-time movie details.
 
-The application fetches real-time movie information from the OMDb API and supports full CRUD operations: Create, Read, Update, and Delete movie records.
-It demonstrates modular Python code, Flask web development, dynamic HTML generation, and environment variable usage for secure API keys.
+Utilized Python (Flask) for backend logic, SQLAlchemy/SQLite for database management, OOP-based DataManager and models for clean CRUD operations, and dynamic HTML/CSS templates, delivering a maintainable, data-driven, and user-friendly web application.
 
 ![MoviWebApp Screenshot](images/screenshot.png)
 
@@ -97,6 +96,8 @@ This project is designed for learning:
    * Using environment variables (.env) for secure keys
    * Structuring Python projects into modules
    * Building web applications with Flask
+   * using OOP
+   * SQLAlchemy/ SQLite for database management
    * Generating HTML dynamically
    * Handling CRUD operations
    * Error handling and fallback messages
