@@ -1,139 +1,116 @@
-MoviWebApp
-Table of Contents
+# 🎬 MoviWebApp
 
-General Info
+## Table of contents
+* [General info](#general-info)
+* [Technologies](#technologies)
+* [Features](#features)
+* [OMDb API Integration](#omdb-api-integration)
+* [Setup](#setup)
+* [Usage](#usage)
+* [Requirement file](#requirement-file)
+* [Project Purpose](#project-purpose)
 
-Technologies
+## General info
+🎬 MoviWebApp is a web application that allows users to browse, and manage movie data through an interactive interface.
 
-Features
+The application fetches real-time movie information from the OMDb API and supports full CRUD operations: Create, Read, Update, and Delete movie records.
+It demonstrates modular Python code, Flask web development, dynamic HTML generation, and environment variable usage for secure API keys.
 
-CRUD Operations
+## Technologies
+* Project is created with: Python version: 3.14
+* Libraries:
+  * Flask
+  * requests
+  * python-dotenv
+* HTML/CSS templates for dynamic page rendering
+* External OMDb API
+* .env file for storing API key securely
 
-OMDb API Integration
+## Features
+* CRUD operations:
+   * Create → Add new movies
+   * Read → View existing movies
+   * Update → Edit movie details
+   * Delete → Remove movies
+   * All CRUD operations are implemented in data_manager.py and exposed via Flask routes in app.py
+* Modular structure:
+   * app.py → main server and route handling
+   * data_manager.py → movie data retrieval & processing
+   * models.py → data structures
+   * Dynamic HTML pages for movie details
+* Display movie information:
+   * Title
+   * Genre
+   * Release Date
+   * Rating
+   * Synopsis
+* Error handling:
+   * If no movie is found → show styled message in the website
+* Use environment variables for OMDb API key security
+* Requirements file for easy setup
 
-Setup
+## OMDb API Integration
+* Uses the OMDb API to fetch real-time movie information
+* Requires a personal API key from OMDb
+* API requests are handled in data_manager.py using the requests library
 
-Usage
-
-Project Purpose
-
-General Info
-
-MoviWebApp is a web application that allows users to search, browse, and manage movie data through an interactive interface. It leverages the OMDb API to fetch movie details in real-time and demonstrates Python-based web development with modular code structure and dynamic HTML generation.
-
-Technologies
-
-Python 3.8+
-
-Flask (Python web framework)
-
-HTML / CSS for front-end templates
-
-OMDb API for movie data
-
-requests library for API calls
-
-requirements.txt for dependency management
-
-Features
-
-User-friendly search and browse functionality for movie data
-
-Dynamic HTML pages generated based on user input
-
-Modular Python structure:
-
-app.py → main server and route handling
-
-data_manager.py → movie data retrieval and processing
-
-models.py → data structures
-
-Display of movie details such as title, genre, release date, rating, and synopsis
-
-Error handling for missing or invalid movie entries
-
-CRUD Operations
-
-MoviWebApp supports full CRUD functionality for managing movie entries:
-
-Create – Add new movie entries via a form on the web interface.
-
-Read – Browse and search existing movie records dynamically.
-
-Update – Edit existing movie details (title, genre, rating, etc.) through the UI.
-
-Delete – Remove movie entries from the database or data store securely.
-
-These operations are implemented in data_manager.py and exposed through Flask routes in app.py, ensuring modular and maintainable code.
-
-OMDb API Integration
-
-MoviWebApp uses the OMDb API
- to fetch movie details. Key points:
-
-API provides real-time information for movies, series, and episodes.
-
-Requires a personal API key from OMDb
-.
-
-API calls are handled in data_manager.py using the requests library.
-
-Example usage in the app:
-
+Example usage:
+````
 import requests
+import os
+
+OMDB_API_KEY = os.getenv("OMDB_API_KEY")
+movie_title = "Inception"
 
 response = requests.get(f"http://www.omdbapi.com/?t={movie_title}&apikey={OMDB_API_KEY}")
 movie_data = response.json()
-Setup
+````
+## Setup
+1. Clone the repository and install dependencies:
+````
+   git clone https://github.com/jess-compliance-dev/MoviWebApp.git
+   cd MoviWebApp
+   pip install -r requirements.txt
+````
+2. Make sure Python 3.14+ is installed:
+````
+   $ python --version
+````
+3. Create a .env file in the root folder and add your OMDb API key:
+````
+    OMDB_API_KEY=insert_your_API_key_here
+````
 
-Clone the repository:
+## Usage
+Run the application:
+````
+$ python app.py
+````
+Open your browser at:
+````
+http://localhost:5000
+````
+If a movie doesn't exist, a styled error message will be displayed on the page
 
-git clone https://github.com/jess-compliance-dev/MoviWebApp.git
-cd MoviWebApp
+## Project Purpose
+This project is designed for learning:
+   * Working with APIs in Python (OMDb API)
+   * Using environment variables (.env) for secure keys
+   * Structuring Python projects into modules
+   * Building web applications with Flask
+   * Generating HTML dynamically
+   * Handling CRUD operations
+   * Error handling and fallback messages
+   * Using Git & GitHub
+   * Managing dependencies with requirements.txt
 
-Create a virtual environment:
+## Requirement file
+requirements.txt contains:
+   * Flask
+   * requests
+   * python-dotenv
 
-python -m venv venv
-source venv/bin/activate   # macOS/Linux
-venv\Scripts\activate      # Windows
-
-Install dependencies:
-
-pip install -r requirements.txt
-
-Configure your OMDb API key:
-
-Create a .env file in the project root:
-
-OMDB_API_KEY=your_api_key_here
-
-Make sure data_manager.py reads this key for API requests.
-
-Usage
-
-Run the main application:
-
-python app.py
-
-Open your browser at http://localhost:5000
-
-Search, browse, and manage movie records with full CRUD support powered by OMDb API.
-
-Project Purpose
-
-This project is designed for learning and demonstration of:
-
-Python web development with Flask
-
-Modular code structure
-
-Dynamic HTML generation
-
-Integration with external APIs (OMDb)
-
-Handling user input and CRUD operations
-
-Error handling and fallback messages
-
-Dependency management with requirements.txt
+To install dependencies:
+````
+   pip install -r requirements.txt
+````
