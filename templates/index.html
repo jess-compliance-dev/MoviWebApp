@@ -2,7 +2,7 @@
 {% block content %}
 <h1>Users</h1>
 <ul class="user-list">
-    {% for user in users %} # ich iteriere über ein HTML-Element
+    {% for user in users %}
     <li class="user-entry">
         <a href="{{ url_for('user_movies', user_id=user.id) }}" class="btn">
             {{ user.name }}
