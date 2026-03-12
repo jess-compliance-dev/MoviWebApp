@@ -16,6 +16,8 @@
 The application fetches real-time movie information from the OMDb API and supports full CRUD operations: Create, Read, Update, and Delete movie records.
 It demonstrates modular Python code, Flask web development, dynamic HTML generation, and environment variable usage for secure API keys.
 
+![MoviWebApp Screenshot](images/screenshot.png)
+
 ## Technologies
 * Project is created with: Python version: 3.14
 * Libraries:
