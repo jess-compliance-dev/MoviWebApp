@@ -7,7 +7,7 @@ from data_manager import DataManager
 
 # load API key
 load_dotenv()
-app = Flask(__name__)
+app = Flask(__name__) # erzeuge eine Instanz der APP
 
 OMDB_API_KEY = os.getenv('OMDB_API_KEY')
 
