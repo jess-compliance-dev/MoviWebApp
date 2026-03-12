@@ -15,7 +15,7 @@
 
 Utilized Python (Flask) for backend logic, SQLAlchemy/SQLite for database management, OOP-based DataManager and models for clean CRUD operations, and dynamic HTML/CSS templates, delivering a maintainable, data-driven, and user-friendly web application.
 
-![MoviWebApp Screenshot](images/screenshot.png)
+![MoviWebApp Screenshoot](images/screenshoot.png)
 
 ## Technologies
 * Project is created with: Python version: 3.14
