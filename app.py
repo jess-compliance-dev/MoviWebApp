@@ -34,10 +34,14 @@ def home():
 
 @app.route('/users', methods=['POST'])
 def add_user():
-    """Handles the POST request to add a new user."""
-    user_name = request.form.get('name')
+    """Handles the POST request to add a new user, validating input and flashing errors if needed."""
+    user_name = request.form.get('name', '').strip()
+
     if user_name:
         data_manager.create_user(user_name)
+    else:
+        flash("User name cannot be empty.", "error")  # Shows error message to the user
+
     return redirect(url_for('home'))
 
 
@@ -55,7 +59,8 @@ def add_movie(user_id):
     if movie_title and OMDB_API_KEY:
         response = requests.get(
             "http://www.omdbapi.com/",
-            params={"apikey": OMDB_API_KEY, "t": movie_title}
+            params={"apikey": OMDB_API_KEY, "t": movie_title},
+            timeout=5 # added timout paramter to prevent lacking
         )
 
         data = response.json()

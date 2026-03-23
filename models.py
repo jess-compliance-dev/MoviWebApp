@@ -7,8 +7,13 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False)
 
-    # verknüpft die beiden Tabellen
-    movies = db.relationship('Movie', backref='user', lazy=True)
+    # Link to movies; automatically deletes all related movies if the user is deleted
+    movies = db.relationship(
+        'Movie',
+        backref='user',
+        lazy=True,
+        cascade='all, delete-orphan'
+    )
 
 
 class Movie(db.Model):

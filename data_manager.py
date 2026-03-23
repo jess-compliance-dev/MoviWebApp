@@ -3,10 +3,15 @@ from models import db, User, Movie
 class DataManager:
     # 1. User Operations
     def create_user(self, name):
-        """Adds a new user to the database."""
+        """Adds a new user to the database, with error handling and rollback."""
         new_user = User(name=name)
-        db.session.add(new_user)
-        db.session.commit()
+        try:
+            db.session.add(new_user)
+            db.session.commit()
+        except Exception as e:
+            db.session.rollback() # rolls back in case of database errors
+            print(f"Error creating user: {e}")
+            raise
 
     def get_users(self):
         """Returns a list of all users."""
