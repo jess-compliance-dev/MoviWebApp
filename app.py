@@ -108,7 +108,5 @@ def page_not_found(e):
     return render_template('404.html'), 404
 
 
-print(OMDB_API_KEY)
-
 if __name__ == '__main__':
     app.run(debug=True)
